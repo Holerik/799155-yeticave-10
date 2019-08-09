@@ -11,7 +11,7 @@
  */
 function Format_price($price) 
 {
-    $result = "";
+    $result =   "";
     $price = ceil($price);
     if ($price > 1000) {
         $result = number_format($price, 0, ".", " ");
@@ -23,6 +23,7 @@ function Format_price($price)
 }
 
 $is_auth = rand(0, 1);
+
 //массив категорий
 $catsArray = [
     'Доски и лыжи',
@@ -32,6 +33,8 @@ $catsArray = [
     'Инструменты',
     'Разное'
 ];
+
+//массив товаров
 $catsInfoArray = [
     [
         'lot_name' => '2014 Rossignol District Snowboard',
