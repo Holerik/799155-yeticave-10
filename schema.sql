@@ -9,18 +9,7 @@ CREATE TABLE categories (
 	code	CHAR(16) NOT NULL UNIQUE
 );
 
-INSERT INTO categories
-SET name = 'Доски и лыжи', code = 'boards';
-INSERT INTO categories
-SET name = 'Крепления', code = 'attachment';
-INSERT INTO categories
-SET name = 'Ботинки', code = 'boots';
-INSERT INTO categories
-SET name = 'Одежда', code = 'clothing';
-INSERT INTO categories
-SET name = 'Инструменты', code = 'tools';
-INSERT INTO categories
-SET name = 'Разное', code = 'other';
+
 
 CREATE TABLE lots (
 	id		    INT AUTO_INCREMENT PRIMARY KEY,
