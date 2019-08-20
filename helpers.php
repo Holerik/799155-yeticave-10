@@ -1,4 +1,120 @@
 <?php
+
+/**
+ * Класс для работы с базой MySQLi
+ */
+class MySqliBase
+{
+    private $_link = null;
+    private $_error = null;
+    private $_connect = false;
+
+    /**
+     * Конструктор
+     * 
+     * @param string $host     Адрес сервера
+     * @param string $user     Имя пользователя БД
+     * @param string $password Пароль пользователя
+     * @param string $dbname   Имя БД
+     * 
+     * @return Ничего
+     */
+    public function __construct($host, $user, $password, $dbname) 
+    {
+        $this->_link = mysqli_connect($host, $user, $password, $dbname);
+        if ($this->_link) {
+            mysqli_set_charset($this->_link, "utf8");
+            $this->_connect = true;
+        } else {
+            $this->_error = mysqli_connect_error();
+        }
+    }
+
+    /**
+     * Возвращает описание текущей ошибки БД
+     * 
+     * @return string Описание ошибки
+     */
+    public function error() 
+    {
+        if (isset($this->_error)) {
+            return $this->_error;
+        }
+        return "";
+    }
+
+    /**
+     * Выполняет запрос к БД
+     * 
+     * @param string $sql Строка запроса
+     * 
+     * @return Ассоциативный массив с результатами
+     */
+    public function query($sql) 
+    {
+        if ($this->_connect) {
+            unset($this->_error);
+            $res = mysqli_query($this->_link, $sql);
+            if (!$res) {
+                $this->_error = mysqli_error($this->_link);
+            }
+            return $res;
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает результат подключения к БД
+     * 
+     * @return bool true - Если подключение установлено
+     */
+    public function ok()
+    {
+        return $this->_connect;
+    }
+
+    /**
+     * Подготавливает строку запроса к БД
+     * 
+     * @param string $sql  Строка запроса с плайсхолдерами
+     * @param array  $data Массив с параметрами запроса
+     * 
+     * @return string      Строка запроса
+     */
+    public function prepare_stmt($sql, $data = []) 
+    {
+        return db_get_prepare_stmt($this->_link, $sql, $data);
+    }
+
+    /**
+     * Возвращает индекс строки после INSERT
+     * 
+     * @return int Индекс
+     */
+    public function last_id() 
+    {
+        if ($this->_connect && !isset($this->_error)) {
+            return mysqli_insert_id($this->_link);
+        }
+        return 0;
+    }
+
+    /**
+     * Возвращает сторку с экранированными символами
+     * 
+     * @param string $str Исходная небезопасная строка
+     * 
+     * @return string     Безопасная строка
+     */
+    public function escape_str($str)
+    {   
+        if ($this->_connect) {
+            return mysqli_real_escape_string($this->_link, $str);
+        }
+        return $str;
+    }
+}
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
