@@ -5,8 +5,8 @@
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
             <?php foreach ($catsArray as $cats): ?>
-                <li class="promo__item promo__item--boards">
-                    <a class="promo__link" href="pages/all-lots.html"><?=$cats;?></a>
+                <li class="promo__item promo__item--<?=$cats['code'];?>">
+                    <a class="promo__link" href="all-lots.php?cat_id=<?=$cats['id'];?>"><?=htmlspecialchars($cats['name']);?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -20,7 +20,7 @@
             <?php foreach ($catsInfoArray as $catsInfo): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?=$catsInfo['lot_img'];?>" width="350" height="260" alt="">
+                    <img src="<?=htmlspecialchars($catsInfo['lot_img']);?>" width="350" height="260" alt="">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?=htmlspecialchars($catsInfo['cat_name']);?></span>
@@ -28,10 +28,10 @@
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=Format_price($catsInfo['lot_price']);?></span>
+                            <span class="lot__cost"><?=Format_price(htmlspecialchars($catsInfo['lot_price']));?></span>
                         </div>
                         <?php
-                            $time = remained_time($catsInfo['dt_fin']);
+                            $time = Remained_time($catsInfo['dt_fin']);
                         ?>
                         <div class="lot__timer timer <?php if ($time[0] <= 1) :?>timer--finishing<?php endif; ?>">
                             <?php 
