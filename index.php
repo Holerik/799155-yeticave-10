@@ -9,9 +9,9 @@ $is_auth = rand(0, 1);
 
 
 $header_content = include_template('header.php', [
-	'title' => $pageName,
-	'user_name' => $user_name,
-	'is_auth' => $is_auth
+    'title' => $pageName,
+    'user_name' => $user_name,
+    'is_auth' => $is_auth
 ]);
 
 $main_content =  include_template('main.php', [
@@ -20,11 +20,11 @@ $main_content =  include_template('main.php', [
 ]);
 
 $footer_content = include_template('footer.php', [
-	'catsArray' => $catsArray
+    'catsArray' => $catsArray
 ]);
 
 $layout_content = include_template('layout.php', [
-	'title' => $pageName,
+    'title' => $pageName,
     'header_content' => $header_content,
     'main_content' => $main_content,
     'footer_content' => $footer_content
