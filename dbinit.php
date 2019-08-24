@@ -22,7 +22,7 @@ if ($yetiCave->ok()) {
 }
 
 if (!empty($yetiCave->error())) {
-	$error = $yetiCave->error();
+    $error = $yetiCave->error();
     header("Location:_404php?hdr=SQL error&msg=" . $yetiCave->error());
 }
 
@@ -53,7 +53,7 @@ if ($lots_count > 0) {
     " ORDER BY l.dt_add DESC" .
     " LIMIT $max_lots_per_page OFFSET $offset_page";
 	*/
-    $sql = "SELECT l.name, c.name as cat_name, cat_id, l.price, img_url, l.id, l.dt_fin FROM lots l" .
+    $sql = "SELECT l.name, c.name as cat_name, cat_id, l.price, img_url, l.id, l.dt_fin, l.dt_add FROM lots l" .
     " JOIN categories c ON l.cat_id = c.id" .
     " ORDER BY l.dt_add DESC";
     $result = $yetiCave->query($sql);
@@ -67,7 +67,8 @@ if ($lots_count > 0) {
                 'lot_img' => $row['img_url'],
                 'lot_id' => $row['id'],
                 'cat_id' => $row['cat_id'],
-                'dt_fin' => $row['dt_fin']
+                'dt_fin' => $row['dt_fin'],
+                'dt_add' => $row['dt_add']
             ];
         }
     } else {
