@@ -236,7 +236,7 @@ function Lot_time_info($dt_add, $dt_fin)
  *
  * @return string Модифицирующая строка
  */
-function Modify_when_error($err, $field, $modify) {
+function Modify_When_error($err, $field, $modify) {
     $res = "";
     if (!empty($field)) {
         if (isset($err[$field])) {
@@ -248,4 +248,168 @@ function Modify_when_error($err, $field, $modify) {
         }
     }
     return $res;
+}
+
+/**
+ * Создает строку для инициализации cookie
+ * 
+ * @param array $cats Список категорий товаров
+ *
+ * @return string Строка для инициализации
+ */
+function initcookie($cats)
+{
+    $result = "0:0";
+    foreach ($cats as $cat) {
+        $result .= "-";
+        $result .= $cat['id'] . ":0";
+    }
+    return $result;
+}
+
+/**
+ * Модифицирует строку cookie для заданной категории
+ * 
+ * @param string  $cookie Исходная строка 
+ * @param integer $cat    Индекс категории в БД
+ *
+ * @return string Модифицированная строка
+ */
+function updatecookie($cookie, $cat)
+{
+    $result = "";
+    $tok = ":-";
+    $num = 0;
+    $snum = strtok($cookie, $tok);
+    while ($snum !== false) {
+        $result .= $snum . ":";
+        if ($snum == $cat) {
+            $snum = strtok($tok);
+            $num = $snum + 1;
+        } else {
+            $snum = strtok($tok);
+            $num = $snum;
+        }
+        $result .= $num;
+        $snum = strtok($tok);
+        if ($snum !== false) {
+            $result .= "-";
+        }
+    }
+    return $result;
+}
+
+/**
+ * Возвращает количество посещений сайта/категории товара
+ * 
+ * @param string  $cookie Исходная строка 
+ * @param integer $cat    Индекс категории в БД
+ * 
+ * @return integer Количестов посещений
+ */
+function infocookie($cookie, $cat) 
+{
+    $tok = ":-";
+    $num = 0;
+    $snum = strtok($cookie, $tok);
+    while ($snum !== false) {
+        if ($snum == $cat) {
+            $snum = strtok($tok);
+            $num = $snum;
+            break;
+        } else {
+            $snum = strtok($tok);
+            $num = $snum;
+        }
+    }
+    return $num;
+}
+
+/**
+ * Меняет размеры исходного изображения и сохраняет его с новым именем
+ * 
+ * @param int    $cx              Размер нового изображения
+ * @param int    $cy              Размер нового изображения
+ * @param string $orig_img_path   Путь к исходному изображению
+ * @param string $resize_img_path Путь для сохранения измененного изображения
+ * 
+ * @return bool  true            В случае успеха
+ *               false           В случае неуспеха
+ */
+function Resize_img($cx, $cy, $orig_img_path, $resize_img_path) {
+    if (!file_exists($orig_img_path)) {
+        return false;
+    }
+    $imagine = new Imagine\Gd\Imagine();
+    $img = $imagine->open($orig_img_path);
+    if (!$img) {
+        return false;
+    }
+    if (file_exists($resize_img_path)) {
+        unlink($resize_img_path);
+    }
+    if ($cx > 0 && $cy > 0) {
+        $new_box = new Imagine\Image\Box($cx, $cy);
+        $img->resize($new_box);
+        $img->save($resize_img_path);
+        return true;
+    }
+    $old_box = $img->getSize();
+    $old_cx = $old_box->getWidth();
+    $old_cy = $old_box->getHeight();
+    if ($cx > 0) {
+        $cy = $old_cy * $cx / $old_cx;
+    } else {
+        $cx = $old_cx * $cy / $old_cy;
+    }
+    $new_box = new Imagine\Image\Box($cx, $cy);
+    $img->resize($new_box);
+    $img->save($resize_img_path);
+    return true;
+}
+
+/**
+ * Обрезает размеры исходного изображения и сохраняет его с новым именем
+ * 
+ * @param int    $cx            Размер нового изображения
+ * @param int    $cy            Размер нового изображения
+ * @param string $orig_img_path Путь к исходному изображению
+ * @param string $crop_img_path Путь для сохранения измененного изображения
+ * 
+ * @return bool  true            В случае успеха
+ *               false           В случае неуспеха
+ */
+function Crop_img($cx, $cy, $orig_img_path, $crop_img_path) 
+{
+    if (!resize_img($cx, $cy, $orig_img_path, $crop_img_path)) {
+        return false;
+    }
+    if ($cy == 0) {
+        $cy = $cx;
+    } elseif ($cx == 0) {
+        $cx = $cy;
+    }
+    if ($cx == 0) {
+        return false;
+    }
+    $imagine = new Imagine\Gd\Imagine();
+    $img = $imagine->open($crop_img_path);
+    if (!$img) {
+        return false;
+    }
+    unlink($crop_img_path);
+    $old_box = $img->getSize();
+    $old_cx = $old_box->getWidth();
+    $old_cy = $old_box->getHeight(); 
+    if ($cx > $old_cx) {
+        $cx = $old_cx;
+    }   
+    if ($cy > $old_cy) {
+        $cy = $old_cy;
+    }   
+    $box = new Imagine\Image\Box($cx, $cy);
+    $point = new Imagine\Image\Point(0, 0);
+    $img->crop($point, $box);
+    $img->save($crop_img_path);
+    return true;
 }
