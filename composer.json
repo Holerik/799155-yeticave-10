@@ -1,0 +1,13 @@
+{
+    "name": "user/799155-yeticave-10",
+    "require": {
+        "imagine/imagine": "^1.2",
+        "swiftmailer/swiftmailer": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "a_zobnin@mail.ru"
+        }
+    ]
+}

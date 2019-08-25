@@ -2,7 +2,8 @@
 $error = "";
 $host = 'localhost';
 
-require_once('helpers.php');
+require_once "vendor/autoload.php";
+require_once "helpers.php";
 
 //Соединяемся с БД
 $yetiCave = new MySqliBase($host, 'root', '', 'yeticave10');
