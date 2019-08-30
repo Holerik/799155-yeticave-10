@@ -4,8 +4,8 @@ require_once('functions.php');
 
 
 $pageName = 'YetiCave';
-$user_name = 'Александр'; // укажите здесь ваше имя
-$is_auth = rand(0, 1);
+$user_name = ''; // укажите здесь ваше имя
+$is_auth = 0;
 
 
 $header_content = include_template('header.php', [
