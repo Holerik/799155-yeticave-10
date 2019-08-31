@@ -5,7 +5,7 @@ ini_set('session.cookie_lifetime', 3600);
 ini_set('session.gc_maxlifetime', 3600);  
 session_start();
 
-$user_info = [];
+//$user_info = [];
 $errors = [];   //перечень ошибок для полей формы
 
 $required_fields = ['name', 'email', 'password', 'message'];

@@ -1,9 +1,4 @@
-﻿<?php
-$user_name = ''; // укажите здесь ваше имя
-$is_auth = 0;
-?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
