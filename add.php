@@ -8,7 +8,7 @@ session_start();
 
 $user_id = 0;
 $user_name = "";
-$is_auth = 1;
+$is_auth = 0;
 
 $required_fields = ['category', 'message', 'lot-name', 'lot-rate', 'lot-step', 'lot-date', 'lot-img'];
 $dictionary = [
@@ -185,7 +185,7 @@ if (empty($error)) {
                     'dictionary' => $dictionary
         ]);
     } else {
-        header("Location:_404.php?hdr=Error 403&msg=Пожалуйста, авторизуйтесь!");
+        header("Location:_404.php?hdr=Error 403&msg=Доступ только для зарегистрированных пользователей!");
     }
 } else {
     header("Location:_404.php?hdr=SQL error&msg=" . $error);
