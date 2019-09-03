@@ -27,7 +27,8 @@ if (isset($_SESSION['avatar'])) {
 $header_content = include_template('header.php', [
     'title' => $pageName,
     'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'is_auth' => $is_auth,
+    'avatar' => $avatar
 ]);
 
 $main_content =  include_template('main.php', [
