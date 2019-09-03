@@ -66,7 +66,7 @@ function Get_min_rate($db, $lot_id, $flag = true) {
     }
     $min_rate = 0;
     $step = 0;
-    $sql = "SELECT rate_step, price FROM lots WHERE key_id = $lot_id";
+    $sql = "SELECT rate_step, price FROM lots WHERE id = $lot_id";
     $result = $db->query($sql);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
@@ -104,7 +104,7 @@ function Check_rate($db, $lot_id, $bet)
     if (!$db->ok()) {
         return false;
     }
-    $rate = get_min_rate($db, $lot_id, false);
+    $rate = Get_min_rate($db, $lot_id, false);
     $result = $bet >= $rate;
     return $result;
 }
@@ -145,31 +145,6 @@ function strtest($str, $test)
     return !(strpos($str, $test) === false);
 }
 
-/**
- * Подбирает синоним для содержимого строки
- * 
- * @param string $name Некоторое содержимое
- *
- * @return string Синоним для содержимого
- */
-function Lot_Alt_descr($name)
-{
-    $result = "Разное";
-    if (strtest($name, "oots") || strtest($name, "отинки")) {
-        $result = "Ботинки";
-    } elseif (strtest($name, "nowboard") || strtest($name, "ноуборд")) {
-        $result = "Сноуборд";
-    } elseif (strtest($name, "уртка")) {
-        $result = "Куртка";
-    } elseif (strtest($name, "ыжи")) {
-        $result = "Лыжи";
-    } elseif (strtest($name, "аска")) {
-        $result = "Маска";
-    } elseif (strtest($name, "чки")) {
-        $result = "Очки";
-    }
-    return $result;
-}
 
 /**
  *  Комментирует период времени прохождения торгов
@@ -225,6 +200,33 @@ function Lot_time_info($dt_add, $dt_fin)
     }
     return $time_info;
 }
+
+/**
+ * Подбирает синоним для содержимого строки
+ * 
+ * @param string $name Некоторое содержимое
+ *
+ * @return string Синоним для содержимого
+ */
+function Lot_alt_descr($name)
+{
+    $result = "Разное";
+    if (strtest($name, "oots") || strtest($name, "отинки")) {
+        $result = "Ботинки";
+    } elseif (strtest($name, "nowboard") || strtest($name, "ноуборд")) {
+        $result = "Сноуборд";
+    } elseif (strtest($name, "уртка")) {
+        $result = "Куртка";
+    } elseif (strtest($name, "ыжи")) {
+        $result = "Лыжи";
+    } elseif (strtest($name, "аска")) {
+        $result = "Маска";
+    } elseif (strtest($name, "чки")) {
+        $result = "Очки";
+    }
+    return $result;
+}
+
 
 /**
  * Проверяет наличие ошибки в массиве ошибок
