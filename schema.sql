@@ -46,3 +46,5 @@ CREATE TABLE users (
 CREATE INDEX rate_search ON rates(user_id);
 CREATE INDEX lot_search ON lots(cat_id, autor_id);
 
+CREATE FULLTEXT INDEX cat_ft_search ON categories(name);
+CREATE FULLTEXT INDEX lot_ft_search ON lots(name, descr);

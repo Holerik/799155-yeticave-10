@@ -253,6 +253,25 @@ function Modify_When_error($err, $field, $modify) {
 }
 
 /**
+ * Возвращает слово СТАВКА в правильном падеже
+ * 
+ * @param integer $count Количество ставок
+ * 
+ * @return string Слово СТАВКА в правильном падеже
+ */
+function wordform($count) 
+{
+    $rem = $count % 10;
+    if ($rem == 1) {
+        return "ставка";
+    }
+    if ($rem > 1 && $rem < 5) {
+        return "ставки";
+    }
+    return "ставок";
+}
+
+/**
  * Создает строку для инициализации cookie
  * 
  * @param array $cats Список категорий товаров

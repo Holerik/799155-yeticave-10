@@ -47,5 +47,20 @@
             <?php endforeach ?>
         </ul>
     </section>
+    <ul class="pagination-list <?=($max_page > 1) ? '' : 'form__error';?>">
+        <?php
+            $lpp = $max_lots_per_page;
+            $next_page = ($lot_page < $max_page) ? $lot_page + 1 : $max_page;
+            $prev_page = ($lot_page > 1) ? $lot_page - 1 : 1;
+        ?>
+        <li class="pagination-item pagination-item-prev"><a href="index.php?lot_page=<?=$prev_page;?>&lot_ppage=<?=$lpp;?>">Назад</a></li>
+        <?php for ($page = 1; $page <= $max_page; $page++):?>
+            <li class="pagination-item <?=($page == $lot_page) ? 'pagination-item-active' : ''; ?>">
+                <a href="index.php?lot_page=<?=$page;?>&lot_ppage=<?=$lpp;?>"><?=$page; ?></a>
+            </li>
+        <?php endfor; ?>
+        <li class="pagination-item pagination-item-next"><a  href="index.php?lot_page=<?=$next_page;?>&lot_ppage=<?=$lpp;?>">Вперед</a></li>
+    </ul>
+
 </main>
 </div>
