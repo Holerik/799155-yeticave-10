@@ -1,7 +1,7 @@
 <?php
 require_once "dbinit.php";
 require_once "functions.php";
-require_once "pagination.php";
+
 ini_set('session.cookie_lifetime', 3600);
 ini_set('session.gc_maxlifetime', 3600);  
 session_start();
@@ -108,6 +108,7 @@ if (empty($error)) {
                         'user_name' => $user_name,
                         'user_id' => $user_id,
                         'is_auth' => $is_auth,
+                        'max_lots_per_page' => $max_lots_per_page,
                         'max_page' => $max_page,
                         'lot_page' => $lot_page
     ]);

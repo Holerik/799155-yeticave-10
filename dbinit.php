@@ -1,9 +1,12 @@
 <?php
+
+//Строка с ошибкой
 $error = "";
 $host = 'localhost';
 
 require_once "vendor/autoload.php";
 require_once "helpers.php";
+require_once "pagination.php";
 
 //Соединяемся с БД
 $yetiCave = new MySqliBase($host, 'root', '', 'yeticave10');
@@ -28,19 +31,16 @@ if (!empty($yetiCave->error())) {
 }
 
 if (empty($error)) {
-    //$sql = "SELECT COUNT(*) FROM lots l WHERE l.cat_id = $cat_id AND l.dt_fin > NOW()";
-    $sql = "SELECT COUNT(*) FROM lots l";
+    $sql = "SELECT COUNT(*) FROM lots l WHERE l.dt_fin > NOW()";
     $result = $yetiCave->query($sql);
     if ($result) {
         $rows = mysqli_fetch_row($result);
         $lots_count = $rows[0];
-		/*
         $offset_page = ($lot_page - 1) * $max_lots_per_page;
         $max_page = floor($lots_count / $max_lots_per_page);
         if ($lots_count % $max_lots_per_page > 0) {
             $max_page++;
         }   
-		*/
     } else {
         $error = $yetiCave->error();
         header("Location:_404.php?hdr=SQL error&msg=" . $error);
@@ -48,15 +48,11 @@ if (empty($error)) {
 }
 
 if ($lots_count > 0) {
-	/*
-    $sql = "SELECT l.name, c.name as cat_name, cat_id, l.price, img_url, l.id, l.dt_fin FROM lots l" .
-    " JOIN categories c ON l.cat_id = c.id  WHERE l.cat_id = $cat_id AND l.dt_fin > NOW()" .
+    $sql = "SELECT l.name, c.name as cat_name, cat_id, l.price, img_url, l.id, l.dt_add, l.dt_fin FROM lots l" .
+    " JOIN categories c ON l.cat_id = c.id  WHERE l.dt_fin > NOW()" .
     " ORDER BY l.dt_add DESC" .
     " LIMIT $max_lots_per_page OFFSET $offset_page";
-	*/
-    $sql = "SELECT l.name, c.name as cat_name, cat_id, l.price, img_url, l.id, l.dt_fin, l.dt_add FROM lots l" .
-    " JOIN categories c ON l.cat_id = c.id" .
-    " ORDER BY l.dt_add DESC";
+    
     $result = $yetiCave->query($sql);
     if ($result && mysqli_num_rows($result) > 0) {
         $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);

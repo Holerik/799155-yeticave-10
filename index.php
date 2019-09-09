@@ -1,6 +1,10 @@
 <?php
-require_once('dbinit.php');
-require_once('functions.php');
+
+require_once "dbinit.php";
+require_once "functions.php";
+
+
+require_once "getwinner.php";
 
 ini_set('session.cookie_lifetime', 3600);
 ini_set('session.gc_maxlifetime', 3600);  
@@ -33,7 +37,10 @@ $header_content = include_template('header.php', [
 
 $main_content =  include_template('main.php', [
     'catsArray' => $catsArray,
-    'catsInfoArray' => $catsInfoArray
+    'catsInfoArray' => $catsInfoArray,
+    'max_lots_per_page' => $max_lots_per_page,
+    'max_page' => $max_page,
+    'lot_page' => $lot_page
 ]);
 
 $footer_content = include_template('footer.php', [
