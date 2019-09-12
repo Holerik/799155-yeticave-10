@@ -5,6 +5,13 @@
     <title><?=$title;?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+	<style type="text/css">
+       .avatar__img {
+            width: 50px;
+            height: 50px;
+            margin-right: 8px;  
+        }
+	</style>
 </head>
 <body>
 <div class="page-wrapper">
